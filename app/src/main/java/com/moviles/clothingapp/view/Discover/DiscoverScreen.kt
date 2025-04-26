@@ -32,6 +32,7 @@ import com.google.firebase.perf.metrics.Trace
 import com.moviles.clothingapp.view.HomeView.BottomNavigationBar
 import com.moviles.clothingapp.view.HomeView.SearchBar
 import com.moviles.clothingapp.viewmodel.PostViewModel
+import com.moviles.clothingapp.viewmodel.HomeViewModel
 
 
 
@@ -43,13 +44,18 @@ import com.moviles.clothingapp.viewmodel.PostViewModel
  */
 
 @Composable
-fun DiscoverScreen(navController: NavController, viewModel: PostViewModel, query: String) {
+fun DiscoverScreen(
+    navController: NavController,
+    viewModel: PostViewModel,
+    query: String,
+    homeViewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel() //
+) {
     val posts by viewModel.posts.collectAsState()
+    val isConnected = homeViewModel.isConnected.collectAsState() //
     var searchQuery by remember { mutableStateOf(query) }
     val trace: Trace = FirebasePerformance.getInstance().newTrace("DiscoverScreen_trace")
     trace.start()
 
-    /* Filter states - they can remain as that or change as user interacts */
     var showFilterDialog by remember { mutableStateOf(false) }
     var selectedCategory by remember { mutableStateOf("Todos") }
     var selectedColor by remember { mutableStateOf("Todos") }
@@ -57,8 +63,6 @@ fun DiscoverScreen(navController: NavController, viewModel: PostViewModel, query
     var selectedGroup by remember { mutableStateOf("Todos") }
     var minPrice by remember { mutableStateOf("") }
     var maxPrice by remember { mutableStateOf("") }
-
-
 
     LaunchedEffect(posts) {
         if (posts.isNotEmpty()) {
@@ -94,6 +98,23 @@ fun DiscoverScreen(navController: NavController, viewModel: PostViewModel, query
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            if (!isConnected.value) {
+                androidx.compose.material3.Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    color = androidx.compose.ui.graphics.Color.Red
+                ) {
+                    Text(
+                        text = "No internet connection",
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterHorizontally),
+                        color = androidx.compose.ui.graphics.Color.White
+                    )
+                }
+            }
+
             SearchBar(
                 searchText = searchQuery,
                 onSearchTextChange = { searchQuery = it },
@@ -144,4 +165,5 @@ fun DiscoverScreen(navController: NavController, viewModel: PostViewModel, query
         )
     }
 }
+
 

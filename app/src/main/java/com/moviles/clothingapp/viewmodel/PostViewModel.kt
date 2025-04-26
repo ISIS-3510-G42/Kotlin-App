@@ -1,5 +1,6 @@
 package com.moviles.clothingapp.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,11 +10,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PostViewModel : ViewModel() {
+class PostViewModel (): ViewModel() {
     private val repository = PostRepository()
 
     private val _posts = MutableStateFlow(emptyList<PostData>())
     val posts: StateFlow<List<PostData>> get() = _posts
+
+    private val _isConnected = MutableStateFlow(true)
+    val isConnected: StateFlow<Boolean> get() = _isConnected
 
     private val _post = MutableStateFlow<PostData?>(null)
     val post: StateFlow<PostData?> get() = _post
@@ -30,10 +34,16 @@ class PostViewModel : ViewModel() {
 
     private fun fetchPostsFiltered() {
         viewModelScope.launch {
-            val result = repository.fetchPostsFiltered() // Ensure repository is returning data
-            _posts.value = result ?: emptyList()
+            try {
+                val result = repository.fetchPostsFiltered()
+                _posts.value = result ?: emptyList()
+            } catch (e: Exception) {
+                Log.e("PostViewModel", "Crash fetching posts: ${e.message}")
+                _posts.value = emptyList()
+            }
         }
     }
+
 
 
     /* Fetch products by category (weather) */
@@ -65,6 +75,10 @@ class PostViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun updateConnectionStatus(isConnected: Boolean) {
+        _isConnected.value = isConnected
     }
 
     fun fetchImageUrl(fileId: String) {

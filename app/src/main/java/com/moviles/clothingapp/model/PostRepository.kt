@@ -10,6 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import com.moviles.clothingapp.model.cache.ProductCache
 
 class PostRepository {
 

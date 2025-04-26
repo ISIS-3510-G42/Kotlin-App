@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">clothingapp</string>
     <string name="title_activity_map_logic_view_model">MapLogicViewModel</string>
+    <string name="MAPS_API_KEY">AIzaSyBjceUi6ekonFWtix0EbAo6SQonAfkqu40</string>
 </resources>
