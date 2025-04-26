@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    //(libs.plugins.googleService)
+    alias(libs.plugins.googleService)
     id("com.google.firebase.firebase-perf")
-    id("com.google.gms.google-services")
+    //id("com.google.gms.google-services")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
