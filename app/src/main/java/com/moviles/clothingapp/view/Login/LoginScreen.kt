@@ -40,7 +40,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, onNavigateToHome: () -> Unit,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(4.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -49,7 +49,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, onNavigateToHome: () -> Unit,
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
             modifier = Modifier
-                .size(300.dp)
+                .size(200.dp)
         )
 
 
