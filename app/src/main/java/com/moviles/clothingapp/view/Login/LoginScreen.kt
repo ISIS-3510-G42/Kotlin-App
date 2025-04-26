@@ -97,6 +97,13 @@ fun LoginScreen(loginViewModel: LoginViewModel, onNavigateToHome: () -> Unit,
             Text("Olvidaste tu contraseña?")
         }
 
+        TextButton(
+            onClick = { navController.navigate("createAccount") },
+            modifier = Modifier.align(Alignment.End)
+        ){
+            Text("Crear nueva cuenta")
+        }
+
         Button(
             onClick = { loginViewModel.signIn(email, password) },
             modifier = Modifier
